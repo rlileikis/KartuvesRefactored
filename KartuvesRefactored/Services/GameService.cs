@@ -17,6 +17,7 @@ namespace KartuvesRefactored.Services
 		private readonly List<Subject> _subjects;
 		private readonly IRandomUtils _randomUtils;
 
+		static List<Word> panaudotiZodziai = new List<Word>();
 
 		public GameService()
 		{
@@ -50,7 +51,8 @@ namespace KartuvesRefactored.Services
 					//var neteisingiSpejimai = new List<string>();
 					//var teisingiSpejimai = new string[zodis.Length];
 					bool leidziamaSpeti = true;
-					PildytiAtrinktuZodziuMasyva(tema, zodis);
+					panaudotiZodziai.Add(zodis);
+					_messageFactory.HangmanPictureMessage(0);
 
 				}
 
@@ -90,12 +92,6 @@ namespace KartuvesRefactored.Services
 
 				Console.WriteLine($"{i + 1}. {_subjects[i].Name}");
 			}
-		}
-
-		private static void PildytiAtrinktuZodziuMasyva(string tema, string zodis)
-		{
-			if (panaudotiZodziai.ContainsKey(tema)) panaudotiZodziai[tema].Add(zodis);
-			else panaudotiZodziai.Add(tema, new List<string> { zodis });
 		}
 
 

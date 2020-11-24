@@ -36,7 +36,6 @@ namespace KartuvesRefactored.Services
 
 		}
 
-
 		public void LostGameMessage(string zodis)
 		{
 
@@ -51,6 +50,11 @@ namespace KartuvesRefactored.Services
 
 		}
 
+		public void HangmanPictureMessage(int incorrectGuessCount)
+		{
+
+			_pictureFactory.DisplayPicture(incorrectGuessCount);
+		}
 	}
 
 
