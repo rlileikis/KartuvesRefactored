@@ -36,6 +36,26 @@ namespace KartuvesRefactored.Services
 
 		}
 
+		public string LoginMessage()
+		{
+			Console.Clear();
+
+			Console.WriteLine("Iveskit savo varda");
+			Console.WriteLine();
+			return Console.ReadLine();
+
+
+		}
+
+		public string WordInputMessage()
+		{
+			Console.WriteLine("\nSpek ar zodi ar raide: ");
+			return Console.ReadLine();
+
+		}
+
+
+
 		public void LostGameMessage(string zodis)
 		{
 
@@ -54,6 +74,13 @@ namespace KartuvesRefactored.Services
 		{
 
 			_pictureFactory.DisplayPicture(incorrectGuessCount);
+		}
+
+		public bool RepeatGameMessage()
+		{
+			Console.WriteLine("Pakartojam? T/N");
+			return Console.ReadKey().KeyChar.ToString().ToUpper() == "T";
+
 		}
 	}
 

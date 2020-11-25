@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KartuvesRefactored.UI", "Ka
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KartuvesRefactored.DL", "KartuvesDL\KartuvesRefactored.DL.csproj", "{C0FAEAC4-A108-4C1D-A702-0591F5D26173}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KartuvesRefactored.DomainBL", "KartuvesRefactoredDomainL\KartuvesRefactored.DomainBL.csproj", "{295F9848-1565-4258-A9AE-55BF2F605109}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KartuvesRefactored.BL", "KartuvesRefactoredDomainL\KartuvesRefactored.BL.csproj", "{295F9848-1565-4258-A9AE-55BF2F605109}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

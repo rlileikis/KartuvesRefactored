@@ -10,11 +10,12 @@ namespace KartuvesRefactoredDomainL.Models
 	{
 		public HiddenWord(int wordSize)
 		{
-			CorrectGuess = new string[wordSize];
+			CorrectGueses = new string[wordSize];
 
 		}
 
-		public string[] CorrectGuess { get; set; }
 		public List<string> IncorrectGueses { get; set; }
+		public string[] CorrectGueses { get; set; }
+		
 	}
 }

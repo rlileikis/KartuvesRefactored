@@ -2,43 +2,40 @@
 using KartuvesRefactoredDomainL.Interfaces;
 using KartuvesRefactoredDomainL.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace KartuvesRefactoredDomainL
+namespace KartuvesRefactored.BL
 {
 	public class HiddenWordManager : IHiddenWordManager
 	{
 		private readonly Word _word;
 
+		public HiddenWord HiddenWord { get; set; }
+
 		public HiddenWordManager(Word word)
 		{
 			_word = word;
+			HiddenWord = new HiddenWord(_word.Text.Length);
 		}
 
 		public HiddenWordManager GetHiddenWord()
 		{
 
-			var hiddenWord = new HiddenWord(_word.Text.Length);
-			return hiddenWord;
+			return HiddenWord;
 		}
 
-		public void ZodzioStrukturosParodymas(string[] teisingiSpejimas)
+		public string GetHiddenWordStructure()
 		{
 			Console.WriteLine();
 			var sb = new StringBuilder("Zodis: ");
-			foreach (var r in teisingiSpejimas)
+			foreach (var r in HiddenWord.CorrectGueses)
 			{
 				if (string.IsNullOrWhiteSpace(r))
-				{
 					sb.Append("_ ");
-				}
 				else sb.Append($"{r} ");
 			}
-			var res = sb.ToString();
-			Console.WriteLine(res);
+			return sb.ToString();
+			
 		}
 
 

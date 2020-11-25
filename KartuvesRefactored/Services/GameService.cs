@@ -1,6 +1,6 @@
 ﻿using KartuvesDL.Models;
+using KartuvesRefactored.BL;
 using KartuvesRefactored.Interfaces;
-
 using KartuvesRefactoredDomainL;
 using KartuvesRefactoredDomainL.Interfaces;
 using System;
@@ -11,11 +11,12 @@ using System.Threading.Tasks;
 
 namespace KartuvesRefactored.Services
 {
-	public class GameService : IGameService, IRandomize
+	public class GameService : IGameService
 	{
 		private readonly IUiMessageFactory _messageFactory;
 		private readonly List<Subject> _subjects;
 		private readonly IRandomUtils _randomUtils;
+		const int gyvybiuKiekis = 7;
 
 		static List<Word> panaudotiZodziai = new List<Word>();
 
@@ -29,7 +30,7 @@ namespace KartuvesRefactored.Services
 		}
 		public void Begin()
 		{
-
+			var userName = _messageFactory.LoginMessage();
 			bool kartoti = true;
 
 			while(kartoti)
@@ -53,11 +54,30 @@ namespace KartuvesRefactored.Services
 					bool leidziamaSpeti = true;
 					panaudotiZodziai.Add(zodis);
 					_messageFactory.HangmanPictureMessage(0);
+					Console.WriteLine();
+					Console.WriteLine(hiddenWordManager.GetHiddenWordStructure());
+					while (leidziamaSpeti)
+					{
+						string spejimas = _messageFactory.WordInputMessage();
+						bool arSpetasZodis = spejimas.Length > 1;
+						if (arSpetasZodis)
+						{
+							bool arTeisinga = zodis.Text == spejimas.ToUpper();
+
+							if (arTeisinga) _messageFactory.WinGameMessage(zodis.Text);
+							else
+							{
+								_messageFactory.HangmanPictureMessage(gyvybiuKiekis);
+								_messageFactory.LostGameMessage(zodis.Text);
+							}
+							leidziamaSpeti = false;
+						}
+
+					}
 
 				}
 
-
-				kartoti = Console.ReadKey().KeyChar.ToString().ToUpper()=="T";
+				kartoti = _messageFactory.RepeatGameMessasge();
 			}
 		}
 		private Word AtsitiktinisZodzioPasirinkimas(Subject tema)

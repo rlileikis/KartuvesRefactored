@@ -73,9 +73,9 @@
       <Project>{c0faeac4-a108-4c1d-a702-0591f5d26173}</Project>
       <Name>KartuvesRefactored.DL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\KartuvesRefactoredDomainL\KartuvesRefactored.DomainBL.csproj">
+    <ProjectReference Include="..\KartuvesRefactoredDomainL\KartuvesRefactored.BL.csproj">
       <Project>{295f9848-1565-4258-a9ae-55bf2f605109}</Project>
-      <Name>KartuvesRefactored.DomainBL</Name>
+      <Name>KartuvesRefactored.BL</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
