@@ -10,7 +10,10 @@ namespace KartuvesRefactoredDomainL.Interfaces
 {
 	public interface IHiddenWordManager
 	{
-		HiddenWordManager GetHiddenWord();
+		HiddenWord HiddenWord { get; set; }
+
+		HiddenWord GetHiddenWord();
 		string GetHiddenWordStructure();
+		void CHeckLetter(string spejimas);
 	}
 }

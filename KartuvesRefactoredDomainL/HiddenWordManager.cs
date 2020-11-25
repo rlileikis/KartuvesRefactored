@@ -2,6 +2,7 @@
 using KartuvesRefactoredDomainL.Interfaces;
 using KartuvesRefactoredDomainL.Models;
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace KartuvesRefactored.BL
@@ -18,7 +19,7 @@ namespace KartuvesRefactored.BL
 			HiddenWord = new HiddenWord(_word.Text.Length);
 		}
 
-		public HiddenWordManager GetHiddenWord()
+		public HiddenWord GetHiddenWord()
 		{
 
 			return HiddenWord;
@@ -36,6 +37,33 @@ namespace KartuvesRefactored.BL
 			}
 			return sb.ToString();
 			
+		}
+
+		public void CHeckLetter(string spejimas)
+		{
+			var zodisArr = _word.Text.ToCharArray();
+			var raidesIndeksas = new List<int>();
+			for (int i = 0; i < _word.Text.Length; i++)
+			{
+				if (zodisArr[i].ToString() == spejimas.ToUpper()) raidesIndeksas.Add(i);
+			}
+
+			if (raidesIndeksas.Count == 0)
+			{
+				HiddenWord.IncorrectGueses.Add(spejimas);
+			}
+			else
+			{
+				PridetiRaideITeisingaVietaZodyje(spejimas, raidesIndeksas);
+			}
+		}
+
+		private void PridetiRaideITeisingaVietaZodyje(string spejimas, List<int> raidesIndeksai )
+		{
+			foreach (int i in raidesIndeksai)
+			{
+				HiddenWord.CorrectGueses[i] = spejimas;
+			}
 		}
 
 

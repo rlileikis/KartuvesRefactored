@@ -48,14 +48,14 @@ namespace KartuvesRefactored.Services
 				}
 				else
 				{
-					IHiddenWordManager hiddenWordManager = new HiddenWordManager(zodis);
+					IHiddenWordManager _hiddenWordManager = new HiddenWordManager(zodis);
 					//var neteisingiSpejimai = new List<string>();
 					//var teisingiSpejimai = new string[zodis.Length];
 					bool leidziamaSpeti = true;
 					panaudotiZodziai.Add(zodis);
 					_messageFactory.HangmanPictureMessage(0);
 					Console.WriteLine();
-					Console.WriteLine(hiddenWordManager.GetHiddenWordStructure());
+					Console.WriteLine(_hiddenWordManager.GetHiddenWordStructure());
 					while (leidziamaSpeti)
 					{
 						string spejimas = _messageFactory.WordInputMessage();
@@ -72,12 +72,42 @@ namespace KartuvesRefactored.Services
 							}
 							leidziamaSpeti = false;
 						}
+						else 
+						{
+							bool arBuvoSpeta = _hiddenWordManager.HiddenWord.IncorrectGueses.Contains(spejimas);
+							if (!arBuvoSpeta)
+							{
+								_hiddenWordManager.CHeckLetter(spejimas);
+
+							}
+							if (_hiddenWordManager.HiddenWord.IncorrectGueses.Count == gyvybiuKiekis)
+							{
+								_messageFactory.HangmanPictureMessage(gyvybiuKiekis);
+								_messageFactory.LostGameMessage(zodis.Text);
+								leidziamaSpeti = false;
+							}
+							else
+							{
+								Console.Clear();
+								_messageFactory.HangmanPictureMessage(_hiddenWordManager.HiddenWord.IncorrectGueses.Count);
+								_messageFactory.IncorrectLetterListMessage(_hiddenWordManager.HiddenWord.IncorrectGueses);
+								Console.WriteLine(_hiddenWordManager.GetHiddenWordStructure());
+								if (_hiddenWordManager.HiddenWord.HiddenLetterCount == 0)
+								{
+									_messageFactory.WinGameMessage(zodis.Text);
+
+									leidziamaSpeti = false;
+								}
+							}
+
+
+						}
 
 					}
 
 				}
 
-				kartoti = _messageFactory.RepeatGameMessasge();
+				kartoti = _messageFactory.RepeatGameMessage();
 			}
 		}
 		private Word AtsitiktinisZodzioPasirinkimas(Subject tema)

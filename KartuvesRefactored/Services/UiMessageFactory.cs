@@ -80,6 +80,16 @@ namespace KartuvesRefactored.Services
 		{
 			Console.WriteLine("Pakartojam? T/N");
 			return Console.ReadKey().KeyChar.ToString().ToUpper() == "T";
+		}
+
+
+		public void IncorrectLetterListMessage(List<string> neteisingiSpejimai )
+		{
+			Console.WriteLine("\nspetos raides ");
+			foreach (var neteisingasSpejimas in neteisingiSpejimai)
+			{
+				Console.Write($"{neteisingasSpejimas} ");
+			}
 
 		}
 	}
