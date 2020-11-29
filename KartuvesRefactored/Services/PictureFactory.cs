@@ -5,9 +5,10 @@ namespace KartuvesRefactored.Services
 {
 	public class PictureFactory : IPictureFactory
 	{
-		public void DisplayPicture(int incorrectGuessCount)
+		public void DisplayPictureAndSubject(int incorrectGuessCount, string subject)
 		{
 			Console.Clear();
+			Console.WriteLine($"Pasirinkta tema: {subject}");
 			switch (incorrectGuessCount)
 			{
 				case 0:

@@ -20,64 +20,60 @@ namespace KartuvesDL
 
 			List<Subject> temos = new List<Subject>
 			{
-				new Subject { 
+				new Subject 
+				{ 
 					Name = temaVardai,
 					Words = new List<Word>
 					{
-						new Word {Text = "Vilmant"},
-						new Word {Text = "Vilmant"},
-						new Word {Text = "Vilmant"},
-						new Word {Text = "Vilmant"},
-						new Word {Text = "Vilmant"},
-						new Word {Text = "Vilmant"},
+						new Word {Text = "VILMANTAS"},
+						new Word {Text = "VALENTINAS"},
+						new Word {Text = "AUDRONE"},
+						new Word {Text = "GIEDRE"},
+						new Word {Text = "GEDIMINAS"},
 					}
 				},
-				new Subject {
+				new Subject 
+				{
 					Name = temaMiestai,
 					Words = new List<Word>
 					{
-						new Word {Text = "Vilmant"},
-						new Word {Text = "Vilmant"},
+						new Word {Text = "VILNIUS"},
+						new Word {Text = "KAUNAS"},
+						new Word {Text = "KLAIPEDA"},
+						new Word {Text = "SIAULIAI"},
+						new Word {Text = "PANEVEZYS"},
+
 
 					}
 				},
-				new Subject {
+				new Subject 
+				{
 					Name = temaValstybes,
 					Words = new List<Word>
 					{
-						new Word {Text = "Vilmant"},
-						new Word {Text = "Vilmant"},
-						new Word {Text = "Vilmant"},
-						new Word {Text = "Vilmant"},
-						new Word {Text = "Vilmant"},
-						new Word {Text = "Vilmant"},
+						new Word {Text = "ANGOLA"},
+						new Word {Text = "BEININAS"},
+						new Word {Text = "BURUNDIS"},
+						new Word {Text = "TOKELAU"},
+						new Word {Text = "DZIBUTIS"},
 					}
 				
 				},
-				new Subject { 
+				new Subject 
+				{ 
 					Name = temaKita,
 					Words = new List<Word>
 					{
-						new Word {Text = "Vilmant"},
-						new Word {Text = "Vilmant"},
-						new Word {Text = "Vilmant"},
-						new Word {Text = "Vilmant"},
-						new Word {Text = "Vilmant"},
-						new Word {Text = "Vilmant"},
+						new Word {Text = "ZODIS"},
+						new Word {Text = "RAIDE"},
+						new Word {Text = "SAKINYS"},
+						new Word {Text = "TEKSTAS"},
+						new Word {Text = "PASTRAIPA"},
 					}
 				},
 			};
 
 			context.Subjects.AddRange(temos);
-
-
-			//readonly static List<string> vardai = new List<string> { "VILMANTAS", "VALENTINAS", "AUDRONE", "GIEDRE", "GEDIMINAS", "KASTYTIS", "LAIMUTE", "MARIJA", "RADVILE", "ZYGIMANTAS" };
-			//readonly static List<string> miestai = new List<string> { "VILNIUS", "KAUNAS", "KLAIPEDA", "SIAULIAI", "PANEVEZYS", "ALYTUS", "MAZEIKIAI", "JONAVA", "TAURAGE", "UKMERDE" };
-			//readonly static List<string> valstybes = new List<string> { "ANGOLA", "BENINAS", "BURUNDIS", "TOKELAU", "DZIBUTIS", "ETIOPIJA", "GABONAS", "LAOSAS", "MALAVIS", "SUDANAS" };
-			//readonly static List<string> kita = new List<string> { "ZODIS", "RAIDE", "SAKINYS", "TEKSTAS", "PASTRAIPA", "STULPELIS", "POSMAS", "KABLELIS", "DVITASKIS", "SKAICIUS" };
-
-
-
 		}
 
 

@@ -16,14 +16,19 @@ namespace KartuvesRefactored
 		static void Main(string[] args)
 		{
 			IUiMessageFactory messageFactory = new UiMessageFactory();
-
 			var welcomeChoice = messageFactory.WelcomeMessage();
 
 			if(welcomeChoice == choiseZaidimas)
 			{
-
 				IGameService gameService = new GameService();
 				gameService.Begin();
+			}
+
+			if (welcomeChoice == choiseStatistika)
+			{
+
+				IStatisticsService service = new StatisticsService();
+				service.Begin();
 
 			}
 

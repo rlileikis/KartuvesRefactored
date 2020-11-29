@@ -1,4 +1,5 @@
-﻿using KartuvesRefactored.Interfaces;
+﻿using KartuvesDL.Models;
+using KartuvesRefactored.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,17 +21,17 @@ namespace KartuvesRefactored.Services
 		public int WelcomeMessage()
 		{
 			Console.Clear();
-
 			Console.WriteLine($"ka veikti?");
 			Console.WriteLine($"1.Statistika, 2.Zaidimas");
-			bool validChoice = false;
 			int choiceNumber = 0;
-			while (!validChoice)
+			while (choiceNumber == 0)
 			{
 				var choice = Console.ReadKey().KeyChar;
 				int.TryParse(choice.ToString(), out choiceNumber);
 				if (choiceNumber == 0) Console.WriteLine("\nGalima vesti tik skaiciu, bandyk per nauja");
 			}
+			Console.Clear();
+			Console.WriteLine("Palaukite kraunasi");
 			return choiceNumber;
 
 
@@ -70,10 +71,10 @@ namespace KartuvesRefactored.Services
 
 		}
 
-		public void HangmanPictureMessage(int incorrectGuessCount)
+		public void HangmanPictureMessage(int incorrectGuessCount, string subject)
 		{
 
-			_pictureFactory.DisplayPicture(incorrectGuessCount);
+			_pictureFactory.DisplayPictureAndSubject(incorrectGuessCount, subject);
 		}
 
 		public bool RepeatGameMessage()
@@ -82,16 +83,44 @@ namespace KartuvesRefactored.Services
 			return Console.ReadKey().KeyChar.ToString().ToUpper() == "T";
 		}
 
+		public void CheatMessage(string zodis)
+		{
+			Console.WriteLine($"Cheat. Zodis = {zodis}");
+		}
 
 		public void IncorrectLetterListMessage(List<string> neteisingiSpejimai )
 		{
-			Console.WriteLine("\nspetos raides ");
+			Console.WriteLine("\nNeteisingai spetos raides: ");
 			foreach (var neteisingasSpejimas in neteisingiSpejimai)
 			{
 				Console.Write($"{neteisingasSpejimas} ");
 			}
+			Console.WriteLine();
+		}
+		public void PlayerStatisticsMessage(Player player)
+		{
+			Console.WriteLine($"Zaidejas {player.Name} zaide {player.ScoreBoards.Count} kartus");
+			Console.WriteLine($"is ju laimejo {player.ScoreBoards.Count(z => z.IsCorrect)}");
+			Console.WriteLine();
+			Console.WriteLine("Press any key");
+			Console.ReadKey();
+		}
+
+		public void GeneralStatisticsMessage(List<Player> players)
+		{
+			Console.Clear();
+			foreach (var player in players)
+			{
+				Console.WriteLine($"Zaidejas {player.Name} zaide {player.ScoreBoards.Count} kartus");
+				Console.WriteLine($"is ju laimejo {player.ScoreBoards.Count(z => z.IsCorrect)}");
+				Console.WriteLine();
+			}
+			Console.WriteLine("Press any key");
+			Console.ReadKey();
 
 		}
+
+
 	}
 
 

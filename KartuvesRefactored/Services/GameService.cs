@@ -16,6 +16,8 @@ namespace KartuvesRefactored.Services
 		private readonly IUiMessageFactory _messageFactory;
 		private readonly List<Subject> _subjects;
 		private readonly IRandomUtils _randomUtils;
+		private readonly IPlayerManager _playerManager;
+		private IHiddenWordManager _hiddenWordManager;
 		const int gyvybiuKiekis = 7;
 
 		static List<Word> panaudotiZodziai = new List<Word>();
@@ -25,12 +27,22 @@ namespace KartuvesRefactored.Services
 			_messageFactory = new UiMessageFactory();
 			_randomUtils = new RandomUtils();
 			IReadRepository wordManager = new WordManager();
-
 			_subjects = wordManager.GetAllSubjects();
+			_playerManager = new PlayerManager();
 		}
 		public void Begin()
 		{
 			var userName = _messageFactory.LoginMessage();
+			var user = _playerManager.GetByUserName(userName);
+
+
+			if (user == null) 
+			{ 				
+				var  key = _playerManager.Add(new Player { Name = userName });
+				user = _playerManager.Get(key);
+			}
+			_messageFactory.PlayerStatisticsMessage(user);
+
 			bool kartoti = true;
 
 			while(kartoti)
@@ -39,8 +51,7 @@ namespace KartuvesRefactored.Services
 				Console.Clear();
 				var tema = SelectSubject();
 				var zodis = AtsitiktinisZodzioPasirinkimas(tema);
-
-				//dabartinisZodis = zodis;// cheat
+				var galAtspetasVisasZodis = false;
 
 				if (zodis == null)
 				{
@@ -48,26 +59,30 @@ namespace KartuvesRefactored.Services
 				}
 				else
 				{
-					IHiddenWordManager _hiddenWordManager = new HiddenWordManager(zodis);
-					//var neteisingiSpejimai = new List<string>();
-					//var teisingiSpejimai = new string[zodis.Length];
+					_hiddenWordManager = new HiddenWordManager(zodis);
 					bool leidziamaSpeti = true;
 					panaudotiZodziai.Add(zodis);
-					_messageFactory.HangmanPictureMessage(0);
-					Console.WriteLine();
+					_messageFactory.HangmanPictureMessage(0, tema.Name);
+					_messageFactory.CheatMessage(zodis.Text);
 					Console.WriteLine(_hiddenWordManager.GetHiddenWordStructure());
+
 					while (leidziamaSpeti)
 					{
 						string spejimas = _messageFactory.WordInputMessage();
 						bool arSpetasZodis = spejimas.Length > 1;
+
 						if (arSpetasZodis)
 						{
-							bool arTeisinga = zodis.Text == spejimas.ToUpper();
+							bool arTeisinga = zodis.Text.ToUpper() == spejimas.ToUpper();
 
-							if (arTeisinga) _messageFactory.WinGameMessage(zodis.Text);
+							if (arTeisinga)
+							{
+								_messageFactory.WinGameMessage(zodis.Text);
+								galAtspetasVisasZodis = true;
+							}
 							else
 							{
-								_messageFactory.HangmanPictureMessage(gyvybiuKiekis);
+								_messageFactory.HangmanPictureMessage(gyvybiuKiekis, tema.Name);
 								_messageFactory.LostGameMessage(zodis.Text);
 							}
 							leidziamaSpeti = false;
@@ -82,20 +97,20 @@ namespace KartuvesRefactored.Services
 							}
 							if (_hiddenWordManager.HiddenWord.IncorrectGueses.Count == gyvybiuKiekis)
 							{
-								_messageFactory.HangmanPictureMessage(gyvybiuKiekis);
+								_messageFactory.HangmanPictureMessage(gyvybiuKiekis, tema.Name);
 								_messageFactory.LostGameMessage(zodis.Text);
 								leidziamaSpeti = false;
 							}
 							else
 							{
 								Console.Clear();
-								_messageFactory.HangmanPictureMessage(_hiddenWordManager.HiddenWord.IncorrectGueses.Count);
+								_messageFactory.HangmanPictureMessage(_hiddenWordManager.HiddenWord.IncorrectGueses.Count, tema.Name);
+								_messageFactory.CheatMessage(zodis.Text);
 								_messageFactory.IncorrectLetterListMessage(_hiddenWordManager.HiddenWord.IncorrectGueses);
 								Console.WriteLine(_hiddenWordManager.GetHiddenWordStructure());
 								if (_hiddenWordManager.HiddenWord.HiddenLetterCount == 0)
 								{
 									_messageFactory.WinGameMessage(zodis.Text);
-
 									leidziamaSpeti = false;
 								}
 							}
@@ -104,17 +119,30 @@ namespace KartuvesRefactored.Services
 						}
 
 					}
-
+					_playerManager.AddScoreBoard(GetScoreBoard(zodis, user.PlayerId, galAtspetasVisasZodis));
 				}
-
 				kartoti = _messageFactory.RepeatGameMessage();
+				galAtspetasVisasZodis = false;
 			}
 		}
+
+		private ScoreBoard GetScoreBoard(Word word, int userId, bool galAtspetasVisasZodis)
+		{
+
+			return new ScoreBoard
+			{
+				PlayerId = userId,
+				DatePlayed = DateTime.Now,
+				GuessCount = _hiddenWordManager.HiddenWord.IncorrectGueses.Count + _hiddenWordManager.HiddenWord.CorrectGueses.Count(z => z != null),
+				IsCorrect = _hiddenWordManager.HiddenWord.HiddenLetterCount == 0 || galAtspetasVisasZodis,
+				WordId = word.WordId, 
+			};
+		}
+
 		private Word AtsitiktinisZodzioPasirinkimas(Subject tema)
 		{
-			var zodziai = tema.Words;
+			var zodziai = tema.Words.Except(panaudotiZodziai).ToList();
 			if (zodziai.Count == 0) return null;
-
 			var atsitiktinisSk = _randomUtils.Random(0, zodziai.Count);
 			return zodziai[atsitiktinisSk];
 		}
@@ -131,7 +159,6 @@ namespace KartuvesRefactored.Services
 				if (ivestasTemosNr > _subjects.Count || ivestasTemosNr == 0) Console.WriteLine("\n {0} temos nėr, bandyk per nauja", ivestasTemosNr);
 			}
 			Console.Clear();
-			//dabartineTema = temos[ivestasTemosNr - 1];
 			return _subjects[ivestasTemosNr - 1];
 		}
 
